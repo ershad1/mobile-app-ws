@@ -1,32 +1,46 @@
 package com.appsdeveloperblog.app.ws.ui.controller;
 
 
+import com.appsdeveloperblog.app.ws.service.UserService;
+import com.appsdeveloperblog.app.ws.shared.dto.UserDto;
 import com.appsdeveloperblog.app.ws.ui.model.request.UserDetails;
+import com.appsdeveloperblog.app.ws.ui.model.response.UserRest;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("user")
 public class UserController {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
-    public String getUser(){
+    public String getUser() {
         return "";
     }
 
     @PostMapping
-    public String createUser(@RequestBody UserDetails userDetails) {
-        return "";
+    public UserRest createUser(@RequestBody UserDetails userDetails) {
+        UserRest returnValue = new UserRest();
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(userDetails, userDto);
+
+        UserDto createdUser = userService.createUser(userDto);
+        BeanUtils.copyProperties(createdUser, returnValue);
+        return returnValue;
     }
 
     @PutMapping
-    public String updateUser(){
-        return"";
-    }
-    @DeleteMapping
-    public String deleteUser(){
-        return"";
+    public String updateUser() {
+        return "";
     }
 
+    @DeleteMapping
+    public String deleteUser() {
+        return "";
+    }
 
 
 }
